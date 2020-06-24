@@ -38,7 +38,7 @@ public class Conecao {
             }
         }
     }   
-    public static void closeConnection(Connection con, Statement stnt){
+    public static void closeStatement(Statement stnt){
         if (stnt != null) {
             try {
                 stnt.close();
@@ -46,9 +46,8 @@ public class Conecao {
                 System.err.println("Erro: " + ex);
                 }
         }
-          closeConnection();
     }
-    public static void closeConnection(Connection con, Statement stnt,ResultSet rn){
+    public static void closeResultSet(ResultSet rn){
         if (rn != null) {
             try {
                 rn.close();
@@ -56,6 +55,5 @@ public class Conecao {
                 System.err.println("Erro: " + ex);
                 }
         }
-        closeConnection(con,stnt);
     }  
 }
