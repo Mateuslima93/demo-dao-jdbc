@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/demo/dao/jdbc/Conecao.java</file>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/modelo/dao/VendedorDao.java</file>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/modelo/dao/DaoFactory.java</file>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/modelo/entidades/Departamento.java</file>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/modelo/dao/DepartamentoDao.java</file>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/modelo/dao/impl/VendedorDaoJdbc.java</file>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/demo/dao/jdbc/ConexaoIntegrityException.java</file>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/demo/dao/jdbc/DemoDaoJdbc.java</file>
+            <file>file:/C:/Users/MASTER/Documents/NetBeansProjects/demo-dao-jdbc/src/modelo/entidades/Vendedor.java</file>
+        </group>
+    </open-files>
+</project-private>

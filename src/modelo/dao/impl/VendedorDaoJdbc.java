@@ -46,8 +46,8 @@ public class VendedorDaoJdbc implements VendedorDao {
             st.setInt(1, id);
             rs = st.executeQuery();
             if (rs.next()){
-                Departamento dep = new Departamento(rs.getInt("DepartmentId"),rs.getString("DepName"));
-                Vendedor obj = new Vendedor (rs.getInt("Id"),rs.getString("Name"),rs.getString("Email"),rs.getDate("BirthDate"),rs.getDouble("BaseSalary"),dep);
+                Departamento dep = instantiateDepartment(rs); 
+                Vendedor obj = instantiateSeller(rs,dep);
             return obj;
             }
             return null;
@@ -64,6 +64,16 @@ public class VendedorDaoJdbc implements VendedorDao {
     @Override
     public List<Vendedor> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private Departamento instantiateDepartment(ResultSet rs) throws SQLException {
+        Departamento dep = new Departamento(rs.getInt("DepartmentId"),rs.getString("DepName"));
+        return dep;  
+    }
+
+    private Vendedor instantiateSeller(ResultSet rs, Departamento dep) throws SQLException {
+        Vendedor vendedor = new Vendedor (rs.getInt("Id"),rs.getString("Name"),rs.getString("Email"),rs.getDate("BirthDate"),rs.getDouble("BaseSalary"),dep);
+        return vendedor;
     }
     
 }
