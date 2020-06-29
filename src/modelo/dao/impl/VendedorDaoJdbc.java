@@ -25,7 +25,6 @@ public class VendedorDaoJdbc implements VendedorDao {
     @Override
     public void insert(Vendedor obj) {
         PreparedStatement st = null;
-        ResultSet rs = null;
         try{
         st = conn.prepareStatement(
                 "INSERT INTO seller "
@@ -40,11 +39,12 @@ public class VendedorDaoJdbc implements VendedorDao {
         st.setInt(5,obj.getDepartamento().getId());
         int rowsAffected = st.executeUpdate();
             if (rowsAffected > 0) {
-                rs = st.getGeneratedKeys();
-                if (rs.next()) {
+                ResultSet rs = st.getGeneratedKeys();
+                while (rs.next()) {
                     int id = rs.getInt(1);
                     obj.setId(id);
                 }
+                Conecao.closeResultSet(rs);
             }
             else{
                 throw new ConexaoIntegrityException("Erro inexperado. Nenhuma linha afetada.");
@@ -55,7 +55,6 @@ public class VendedorDaoJdbc implements VendedorDao {
         }
         finally{
             Conecao.closeStatement(st);
-            Conecao.closeResultSet(rs);
             }
     }
 
@@ -88,7 +87,21 @@ public class VendedorDaoJdbc implements VendedorDao {
 
     @Override
     public void deleteById(Integer id) {
+        PreparedStatement st = null;
+        try{
+            conn.prepareStatement(
+                    "DELETE FROM seller "
+                    + "WHRE Id = ?");
+            st.setInt(1, id);
+            st.executeUpdate();
         }
+        catch(SQLException e){
+            throw new ConexaoIntegrityException(e.getMessage());
+        }
+        finally{
+            Conecao.closeStatement(st);
+        }
+    }
 
     @Override
     public Vendedor findById(Integer id) {
@@ -157,13 +170,21 @@ public class VendedorDaoJdbc implements VendedorDao {
     }
 
     private Departamento instantiateDepartment(ResultSet rs) throws SQLException {
-        Departamento dep = new Departamento(rs.getInt("DepartmentId"),rs.getString("DepName"));
+        Departamento dep = new Departamento();
+            dep.setId(rs.getInt("DepartmentId"));
+            dep.setName(rs.getString("DepName"));
         return dep;  
     }
 
     private Vendedor instantiateSeller(ResultSet rs, Departamento dep) throws SQLException {
-        Vendedor vendedor = new Vendedor (rs.getInt("Id"),rs.getString("Name"),rs.getString("Email"),rs.getDate("BirthDate"),rs.getDouble("BaseSalary"),dep);
-        return vendedor;
+        Vendedor obj = new Vendedor();
+            obj.setId(rs.getInt("Id"));
+            obj.setName(rs.getString("Name"));
+            obj.setEmail(rs.getString("Email"));
+            obj.setBirthDate(rs.getDate("BirthDate"));
+            obj.setBaseSalary(rs.getDouble("BaseSalary"));
+            obj.setDepartamento(dep);
+        return obj;
     }
 
     @Override

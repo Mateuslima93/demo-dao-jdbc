@@ -12,7 +12,7 @@ public class DemoDaoJdbc {
 
     public static void main(String[] args) {
         VendedorDao vendedorDao = DaoFactory.createdSellerDao();
-        System.out.println("=== Test 1: seller findById");
+        /*System.out.println("=== Test 1: seller findById");
         Vendedor vendedor = vendedorDao.findById(3);
         System.out.println(vendedor);
         System.out.println("=== Test 2: seller findByDepartment");
@@ -28,11 +28,15 @@ public class DemoDaoJdbc {
         Vendedor newVendedor = new Vendedor(null, "Greg", "greg@gmail.com", new Date(),4000.00, new Departamento(2,null));
         vendedorDao.insert(newVendedor);
         System.out.println("Inserted! New id = " + newVendedor.getId());
-  
-        System.out.println("=== Test 5: seller update");
+        */
+        System.out.println("=== Test 6: seller delete");
+        vendedorDao.deleteById(25);
         
-        vendedorDao.update(vendedor);
-        System.out.println("Update completo");
+        /*  System.out.println("=== Test 5: seller update");
+        Vendedor vendedor1 = vendedorDao.findById(1);
+        vendedor1.setName("Lucas Camargo");
+        vendedorDao.update(vendedor1);
+        System.out.println("Update completo");*/
     }
     
 }
