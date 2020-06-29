@@ -1,5 +1,6 @@
 package demo.dao.jdbc;
 
+import java.util.Date;
 import java.util.List;
 import modelo.dao.DaoFactory;
 import modelo.dao.VendedorDao;
@@ -22,6 +23,10 @@ public class DemoDaoJdbc {
         System.out.println("=== Test 3: seller findAll");
         list = vendedorDao.findAll();
         list.forEach(System.out::println);
+        System.out.println("=== Test 4: seller insert");
+        Vendedor newVendedor = new Vendedor(null, "Greg", "greg@gmail.com", new Date(),4000.00, new Departamento(2,null));
+        vendedorDao.insert(newVendedor);
+        System.out.println("Inserted! New id = " + newVendedor.getId());
     }
     
 }
