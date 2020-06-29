@@ -19,6 +19,9 @@ public class DemoDaoJdbc {
         for (Vendedor obj: list) {
             System.out.println(obj);
         }
+        System.out.println("=== Test 3: seller findAll");
+        list = vendedorDao.findAll();
+        list.forEach(System.out::println);
     }
     
 }

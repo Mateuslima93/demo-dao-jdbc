@@ -66,7 +66,37 @@ public class VendedorDaoJdbc implements VendedorDao {
 
     @Override
     public List<Vendedor> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try{
+            st = conn.prepareStatement(
+                    "SELECT seller.*,department.Name as DepName " 
+                    + "FROM seller INNER JOIN department " 
+                    + "ON seller.DepartmentId = department.Id " 
+                    + "ORDER BY Name");
+
+            rs = st.executeQuery();
+
+            List<Vendedor> listVend = new ArrayList<>();
+            Map<Integer,Departamento> map = new HashMap<>();
+
+            while (rs.next()){
+                Departamento dep = map.get(rs.getInt("DepartmentId"));
+                if (dep == null) {
+                    dep = instantiateDepartment(rs);
+                    map.put(rs.getInt("DepartmentId"), dep);
+                }
+                listVend.add(instantiateSeller(rs,dep));
+            }
+        return listVend;
+        }
+        catch(SQLException e){
+            throw new ConexaoIntegrityException(e.getMessage());
+        }
+        finally{
+            Conecao.closeResultSet(rs);
+            Conecao.closeStatement(st);
+        }
     }
 
     private Departamento instantiateDepartment(ResultSet rs) throws SQLException {
