@@ -23,10 +23,16 @@ public class DemoDaoJdbc {
         System.out.println("=== Test 3: seller findAll");
         list = vendedorDao.findAll();
         list.forEach(System.out::println);
+        
         System.out.println("=== Test 4: seller insert");
         Vendedor newVendedor = new Vendedor(null, "Greg", "greg@gmail.com", new Date(),4000.00, new Departamento(2,null));
         vendedorDao.insert(newVendedor);
         System.out.println("Inserted! New id = " + newVendedor.getId());
+  
+        System.out.println("=== Test 5: seller update");
+        
+        vendedorDao.update(vendedor);
+        System.out.println("Update completo");
     }
     
 }

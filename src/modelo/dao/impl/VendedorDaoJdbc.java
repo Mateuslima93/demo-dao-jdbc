@@ -25,6 +25,7 @@ public class VendedorDaoJdbc implements VendedorDao {
     @Override
     public void insert(Vendedor obj) {
         PreparedStatement st = null;
+        ResultSet rs = null;
         try{
         st = conn.prepareStatement(
                 "INSERT INTO seller "
@@ -39,12 +40,11 @@ public class VendedorDaoJdbc implements VendedorDao {
         st.setInt(5,obj.getDepartamento().getId());
         int rowsAffected = st.executeUpdate();
             if (rowsAffected > 0) {
-                ResultSet rs = st.getGeneratedKeys();
+                rs = st.getGeneratedKeys();
                 if (rs.next()) {
                     int id = rs.getInt(1);
                     obj.setId(id);
                 }
-                Conecao.closeResultSet(rs);
             }
             else{
                 throw new ConexaoIntegrityException("Erro inexperado. Nenhuma linha afetada.");
@@ -55,19 +55,40 @@ public class VendedorDaoJdbc implements VendedorDao {
         }
         finally{
             Conecao.closeStatement(st);
-            Conecao.closeConnection();
-        }
+            Conecao.closeResultSet(rs);
+            }
     }
 
     @Override
     public void update(Vendedor obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement st = null;
+        try {
+            conn.prepareStatement(
+                    "UPDATE seller "
+                    + "SET Name = ?, Email = ?, BirthDate = ?, "
+                    + "BaseSalary = ?, DepartmentId = ? "
+                    + "WHERE Id = ?");
+            st.setString(1, obj.getName());
+            st.setString(2, obj.getEmail());
+            st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+            st.setDouble(4, obj.getBaseSalary());
+            st.setInt(5, obj.getDepartamento().getId());
+            st.setInt(6, obj.getId());
+            
+            st.executeUpdate();
+        }
+        catch(SQLException e){
+             throw new ConexaoIntegrityException(e.getMessage());
+  
+        }
+        finally{
+            Conecao.closeStatement(st);
+        }
     }
 
     @Override
     public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        }
 
     @Override
     public Vendedor findById(Integer id) {
@@ -84,16 +105,18 @@ public class VendedorDaoJdbc implements VendedorDao {
             if (rs.next()){
                 Departamento dep = instantiateDepartment(rs); 
                 Vendedor obj = instantiateSeller(rs,dep);
-            return obj;
+                return obj;
             }
-            return null;
+            else{
+                return null;
+            }
         }
         catch(SQLException e){
             throw new ConexaoIntegrityException(e.getMessage());
         }
         finally{
-            Conecao.closeResultSet(rs);
             Conecao.closeStatement(st);
+            Conecao.closeResultSet(rs);
         }
     }
 
@@ -127,8 +150,9 @@ public class VendedorDaoJdbc implements VendedorDao {
             throw new ConexaoIntegrityException(e.getMessage());
         }
         finally{
-            Conecao.closeResultSet(rs);
             Conecao.closeStatement(st);
+            Conecao.closeResultSet(rs);
+            
         }
     }
 
@@ -171,8 +195,9 @@ public class VendedorDaoJdbc implements VendedorDao {
             throw new ConexaoIntegrityException(e.getMessage());
         }
         finally{
-            Conecao.closeResultSet(rs);
             Conecao.closeStatement(st);
+            Conecao.closeResultSet(rs);
+            
         }
     }
 }
