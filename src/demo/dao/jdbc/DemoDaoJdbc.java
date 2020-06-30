@@ -28,15 +28,20 @@ public class DemoDaoJdbc {
         Vendedor newVendedor = new Vendedor(null, "Greg", "greg@gmail.com", new Date(),4000.00, new Departamento(2,null));
         vendedorDao.insert(newVendedor);
         System.out.println("Inserted! New id = " + newVendedor.getId());
+        
+        System.out.println("=== Test 5: seller update");
+        vendedor = vendedorDao.findById(1);
+        vendedor.setName("Lucas Camargo");
+        vendedorDao.update(vendedor);
+        System.out.println("Update completo");
         */
         System.out.println("=== Test 6: seller delete");
-        vendedorDao.deleteById(25);
+        for (int i = 17; i >= 9; i--) {
+           vendedorDao.deleteById(i); 
+        }
+
         
-        /*  System.out.println("=== Test 5: seller update");
-        Vendedor vendedor1 = vendedorDao.findById(1);
-        vendedor1.setName("Lucas Camargo");
-        vendedorDao.update(vendedor1);
-        System.out.println("Update completo");*/
+       
     }
     
 }

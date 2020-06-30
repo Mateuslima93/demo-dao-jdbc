@@ -26,21 +26,24 @@ public class VendedorDaoJdbc implements VendedorDao {
     public void insert(Vendedor obj) {
         PreparedStatement st = null;
         try{
-        st = conn.prepareStatement(
-                "INSERT INTO seller "
-                + "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
-                + "VALUES "
-                + "(?, ?, ?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS); 
-        st.setString(1, obj.getName());
-        st.setString(2, obj.getEmail());
-        st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
-        st.setDouble(4, obj.getBaseSalary());
-        st.setInt(5,obj.getDepartamento().getId());
-        int rowsAffected = st.executeUpdate();
+            st = conn.prepareStatement(
+                    "INSERT INTO seller "
+                    + "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+                    + "VALUES "
+                    + "(?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS); 
+
+            st.setString(1, obj.getName());
+            st.setString(2, obj.getEmail());
+            st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+            st.setDouble(4, obj.getBaseSalary());
+            st.setInt(5,obj.getDepartamento().getId());
+            
+            int rowsAffected = st.executeUpdate();
+            
             if (rowsAffected > 0) {
                 ResultSet rs = st.getGeneratedKeys();
-                while (rs.next()) {
+                if (rs.next()) {
                     int id = rs.getInt(1);
                     obj.setId(id);
                 }
@@ -61,8 +64,9 @@ public class VendedorDaoJdbc implements VendedorDao {
     @Override
     public void update(Vendedor obj) {
         PreparedStatement st = null;
+        
         try {
-            conn.prepareStatement(
+            st = conn.prepareStatement(
                     "UPDATE seller "
                     + "SET Name = ?, Email = ?, BirthDate = ?, "
                     + "BaseSalary = ?, DepartmentId = ? "
@@ -89,9 +93,9 @@ public class VendedorDaoJdbc implements VendedorDao {
     public void deleteById(Integer id) {
         PreparedStatement st = null;
         try{
-            conn.prepareStatement(
+            st = conn.prepareStatement(
                     "DELETE FROM seller "
-                    + "WHRE Id = ?");
+                    + "WHERE Id = ?");
             st.setInt(1, id);
             st.executeUpdate();
         }
@@ -120,9 +124,7 @@ public class VendedorDaoJdbc implements VendedorDao {
                 Vendedor obj = instantiateSeller(rs,dep);
                 return obj;
             }
-            else{
-                return null;
-            }
+            return null;
         }
         catch(SQLException e){
             throw new ConexaoIntegrityException(e.getMessage());
